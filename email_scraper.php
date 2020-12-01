@@ -9,7 +9,9 @@ function scrape_email($url) {
         return ''; 
     }
     //$result = @file_get_contents($url);
-    $result = @curl_get_contents($url);
+    $result = @curl_get_contents($url);//si le function curl-get-contents 
+    //retourne une erreur la function s'execute quand même
+    //MEME SI c'est une chose à éviter
     
     if ($result === FALSE) {
         return '';
@@ -45,18 +47,18 @@ function clean($str) {
 
 function curl_get_contents($url) {
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);//TRUE pour inclure l'en-tête dans la valeur de retour. 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);//TRUE pour retourner le transfert en tant que chaîne de caractères de la valeur retournée par curl_exec() au lieu de l'afficher directement. 
     // For https connections, we do not require SSL verification
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);//FALSE pour arrêter cURL de vérifier le certificat du pair. Les certificats alternatifs à vérifier contre peuvent être spécifiés avec l'option CURLOPT_CAINFO ou un répertoire de certificat peut être spécifié avec l'option CURLOPT_CAPATH. 
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);//Le nombre de secondes à attendre durant la tentative de connexion. Utiliser 0 pour attendre indéfiniment. 
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);//TRUE pour suivre tous les en-têtes "Location: " que le serveur envoie dans les en-têtes HTTP (à noter que ceci est récursif, PHP suivra tous les en-têtes "Location: " qui lui sont envoyés à moins que CURLOPT_MAXREDIRS ne soit définie). 
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);//Le nombre maximal de redirections HTTP à suivre. Utilisez cette option avec l'option CURLOPT_FOLLOWLOCATION. 
     curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-    $content = curl_exec($ch);
+    $content = curl_exec($ch);//Exécute une session cURL
     //$error = curl_error($ch);
     //$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    curl_close($ch);//Ferme une session CURL
     return $content;
 }
 

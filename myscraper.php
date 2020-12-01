@@ -13,8 +13,6 @@ if (isset($_POST['submit'])){
             $database->insert("Emails", [
                 "email"=>$email,
                 ]);
-                $data = $database->select("Emails", "*");
-                //echo display_table();
         };
 
     }
@@ -38,28 +36,28 @@ if (isset($_POST['submit'])){
     <input type="submit" name="submit" value="envoyer">
     </form>
 
-    <main class="container">
-        <div class="row">
-            <section class="col-12">
+            <h1>Voici la liste de tout les emails inscrits.</h1>
+
                 <table class="table">
-                    <thead>
-                        <th>Voici la liste de tout les emails inscrits.</th>
-                    </thead>
-                    <tbody>
-                        <?php foreach($data as $email){
-                            while ($a <= 10) {
-                                # code...
-                            }?>
-                        <tr>
-                            <td><?php $email?></td>
-                        </tr>
-                        <?php }?>
+                        <?php $i = 0 ; // je met mon compteur à 0 (initialise compteur en français)
+                         foreach($emails as $email):$i++ //à chaque boucle $i augmente de 1?>
+                        <?php if ($i == 1) :?>
+                            <tr>
+                        <?php endif;?>
 
-                    </tbody>
+                            <td><?php echo $email ?></td>
+
+                        <?php if ($i == 6): $i = 0; //ligne fini on fait un reset sur le i (donc on remet le compteur à 0?>
+                            </tr>
+                        <?php endif;?>
+                        <?php endforeach;?>
+                        <!-- je rajoute une condition si le nbr de email de la dernière ligne 
+                        n'est pas un multiple de 6 je dois fermer la ligne avant de 
+                        fermer le tableau  -->
+                        <?php if ($i != 0) :?>
+                            </tr>
+                        <?php endif ?>
                 </table>
-            </section>
 
-        </div>
-    </main>
 </body>
 </html>
